@@ -1,7 +1,7 @@
 #include "sort.h"
+#include <cstring>
 #include <iostream>
 #include <vector>
-#include <cstring>
 
 int main(int argc, const char* argv[]) {
   if (argc < 4) {
