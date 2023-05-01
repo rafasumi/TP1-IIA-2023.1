@@ -12,12 +12,17 @@ int main(int argc, const char* argv[]) {
 
   std::string algorithm = argv[1];
   int n = std::stoi(argv[2]);
-  std::vector<int> target(n);
   bool print = false;
   if (strcmp(argv[argc - 1], "PRINT") == 0) {
     print = true;
   }
 
+  if (argc < n + 3 + (int)print) {
+    std::cerr << "Not enough args\n";
+    return 1;
+  }
+
+  std::vector<int> target(n);
   for (int i = 3; i < n + 3; i++) {
     target[i - 3] = std::stoi(argv[i]);
   }
