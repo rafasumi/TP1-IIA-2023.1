@@ -1,6 +1,7 @@
 #include "sort.h"
 #include "bfs.h"
 #include "dijkstra.h"
+#include "greedy.h"
 #include "iterative.h"
 #include <algorithm>
 #include <iostream>
@@ -33,6 +34,16 @@ std::string SearchSort::get_path(std::shared_ptr<Node> node) {
   return path;
 }
 
+int SearchSort::heuristic(std::vector<int>& vec) {
+  int estimative = 0;
+  for (int i = 0; i < (int)vec.size(); i++) {
+    if (vec[i] != i + 1)
+      estimative++;
+  }
+
+  return estimative;
+}
+
 std::string search_sort(std::vector<int>& target, std::string& algorithm,
                         int& cost, int& states) {
   std::unique_ptr<SearchSort> algo;
@@ -44,6 +55,7 @@ std::string search_sort(std::vector<int>& target, std::string& algorithm,
     algo.reset(new Dijkstra);
   } else if (algorithm == "A") {
   } else if (algorithm == "G") {
+    algo.reset(new Greedy);
   } else {
     std::cerr << "Unknown algorithm '" << algorithm << "'\n";
     exit(EXIT_FAILURE);

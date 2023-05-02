@@ -26,9 +26,17 @@ struct DFSNode : Node {
   int depth;
 };
 
+struct HeuristicNode : Node {
+  HeuristicNode(std::vector<int>& value, int cost, std::string str,
+                std::shared_ptr<Node> pred, int estimated)
+      : Node(value, cost, str, pred), estimated(estimated) {}
+
+  int estimated;
+};
 
 using NodePtr = std::shared_ptr<Node>;
 using DFSNodePtr = std::shared_ptr<DFSNode>;
+using HeuristicNodePtr = std::shared_ptr<HeuristicNode>;
 
 class SearchSort {
 public:
@@ -41,6 +49,7 @@ protected:
   std::string vec_to_str(std::vector<int>& vec);
   bool goal_test(std::vector<int>& vec);
   std::string get_path(std::shared_ptr<Node> node);
+  int heuristic(std::vector<int>& vec);
 };
 
 std::string search_sort(std::vector<int>& target, std::string& algorithm,
