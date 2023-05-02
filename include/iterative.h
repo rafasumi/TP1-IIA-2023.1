@@ -4,17 +4,14 @@
 #include "sort.h"
 #include <vector>
 
-struct DFSNode : Node {
-  int depth;
-};
-
 class Iterative : public SearchSort {
 private:
   bool limited_sort(std::vector<int>& target, int& cost, int& states,
-                    int limit);
+                    std::string& path, int limit);
 
 public:
-  virtual void sort(std::vector<int> target, int& cost, int& states);
+  virtual void sort(std::vector<int> target, int& cost, int& states,
+                    std::string& path);
 };
 
 #endif

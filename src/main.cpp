@@ -29,12 +29,12 @@ int main(int argc, const char* argv[]) {
 
   int cost = 0;
   int states = 0;
-  std::string s = search_sort(target, algorithm, cost, states);
+  std::string path = search_sort(target, algorithm, cost, states);
 
   std::cout << cost << " " << states << '\n';
 
   if (print) {
-    std::cout << s;
+    std::cout << path;
   }
 
   return 0;

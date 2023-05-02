@@ -6,7 +6,8 @@
 
 class Dijkstra : public SearchSort {
 public:
-  virtual void sort(std::vector<int> target, int& cost, int& states);
+  virtual void sort(std::vector<int> target, int& cost, int& states,
+                    std::string& path);
 };
 
 #endif

@@ -2,29 +2,31 @@
 #include <stack>
 
 bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& states,
-                             int limit) {
-  std::stack<DFSNode> frontier;
-  frontier.push({target, 0, 0});
+                             std::string& path, int limit) {
+  std::stack<DFSNodePtr> frontier;
+  frontier.push(
+      std::make_shared<DFSNode>(target, 0, vec_to_str(target), nullptr, 0));
 
   while (!frontier.empty()) {
-    DFSNode node = frontier.top();
+    DFSNodePtr node = frontier.top();
     frontier.pop();
 
-    std::vector<int> node_val = node.value;
+    std::vector<int> node_val = node->value;
     if (goal_test(node_val)) {
-      intermediate_states << vec_to_str(node_val) << '\n';
-      cost = node.cost;
+      cost = node->cost;
+      path = get_path(node);
       return true;
     }
 
-    states++;
-
-    std::string str = vec_to_str(node_val);
-    intermediate_states << str << '\n';
-    explored[str] = true;
-
-    if (node.depth == limit)
+    if (explored.find(node->str) != explored.end())
       continue;
+    explored[node->str] = true;
+
+    if (node->depth == limit)
+      continue;
+
+    // Not sure this increment is right
+    states++;
 
     for (size_t i = 0; i < node_val.size() - 1; i++) {
       for (size_t j = i + 1; j < node_val.size(); j++) {
@@ -33,8 +35,9 @@ bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& states,
         new_node[j] = node_val[i];
         std::string new_str = vec_to_str(new_node);
         if (explored.find(new_str) == explored.end()) {
-          int new_cost = node.cost + ((j == i + 1) ? 2 : 4);
-          frontier.push({new_node, new_cost, node.depth + 1});
+          int new_cost = node->cost + ((j == i + 1) ? 2 : 4);
+          frontier.push(std::make_shared<DFSNode>(new_node, new_cost, new_str,
+                                                  node, node->depth + 1));
         }
       }
     }
@@ -43,13 +46,13 @@ bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& states,
   return false;
 }
 
-void Iterative::sort(std::vector<int> target, int& cost, int& states) {
+void Iterative::sort(std::vector<int> target, int& cost, int& states,
+                     std::string& path) {
   int limit = 0;
   int temp_cost;
+  std::string temp_path;
   while (true) {
-    temp_cost = 0;
-
-    bool success = limited_sort(target, temp_cost, states, limit);
+    bool success = limited_sort(target, temp_cost, states, temp_path, limit);
 
     if (!success) {
       limit++;
@@ -60,4 +63,5 @@ void Iterative::sort(std::vector<int> target, int& cost, int& states) {
   }
 
   cost = temp_cost;
+  path = temp_path;
 }

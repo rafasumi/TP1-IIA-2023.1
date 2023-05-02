@@ -21,15 +21,27 @@ bool SearchSort::goal_test(std::vector<int>& vec) {
   return std::is_sorted(vec.begin(), vec.end());
 }
 
+std::string SearchSort::get_path(std::shared_ptr<Node> node) {
+  std::string path = "";
+
+  std::shared_ptr<Node> curr = node;
+  while (curr != nullptr) {
+    path = curr->str + "\n" + path;
+    curr = curr->pred;
+  }
+
+  return path;
+}
+
 std::string search_sort(std::vector<int>& target, std::string& algorithm,
                         int& cost, int& states) {
-  SearchSort* algo;
+  std::unique_ptr<SearchSort> algo;
   if (algorithm == "B") {
-    algo = new BFS;
+    algo.reset(new BFS);
   } else if (algorithm == "I") {
-    algo = new Iterative;
+    algo.reset(new Iterative);
   } else if (algorithm == "U") {
-    algo = new Dijkstra;
+    algo.reset(new Dijkstra);
   } else if (algorithm == "A") {
   } else if (algorithm == "G") {
   } else {
@@ -37,9 +49,8 @@ std::string search_sort(std::vector<int>& target, std::string& algorithm,
     exit(EXIT_FAILURE);
   }
 
-  algo->sort(target, cost, states);
-  std::string intermediate_states = algo->intermediate_states.str();
-  delete algo;
+  std::string path = "";
+  algo->sort(target, cost, states, path);
 
-  return intermediate_states;
+  return path;
 }
