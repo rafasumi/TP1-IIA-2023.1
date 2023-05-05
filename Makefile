@@ -12,10 +12,10 @@ OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp
 	@mkdir -p $(OBJ_FOLDER)
-	$(CC) $(CCFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER) $(LIBS)
+	$(CC) $(CCFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
 build: $(OBJ)
-	$(CC) $(CCFLAGS) -o $(TARGET) $(OBJ) $(LIBS)
+	$(CC) $(CCFLAGS) -o $(TARGET) $(OBJ)
 
 clean:
 	@rm -rf $(OBJ_FOLDER) $(TARGET)
