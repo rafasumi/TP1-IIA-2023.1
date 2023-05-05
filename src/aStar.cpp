@@ -1,16 +1,13 @@
-#include "greedy.h"
+#include "aStar.h"
 #include <queue>
 
-void Greedy::sort(std::vector<int> target, int& cost, int& expansions, std::string& path) {
+void AStar::sort(std::vector<int> target, int& cost, int& expansions, std::string& path) {
   auto heap_compare = [](const HeuristicNodePtr& x, const HeuristicNodePtr& y) {
-    return x->estimated >= y->estimated;
+    return (x->estimated + x->cost) >= (y->estimated + y->cost);
   };
   std::priority_queue<HeuristicNodePtr, std::vector<HeuristicNodePtr>, decltype(heap_compare)>
       frontier(heap_compare);
-  std::unordered_map<std::vector<int>, bool, int_vector_hash> frontier_nodes;
-
   frontier.push(std::make_shared<HeuristicNode>(target, 0, nullptr, heuristic(target)));
-  frontier_nodes[target] = true;
 
   while (!frontier.empty()) {
     HeuristicNodePtr node = frontier.top();
@@ -22,9 +19,8 @@ void Greedy::sort(std::vector<int> target, int& cost, int& expansions, std::stri
       return;
     }
 
-    expansions++;
-    frontier_nodes.erase(node_val);
     explored[node_val] = true;
+    expansions++;
 
     for (size_t i = 0; i < node_val.size() - 1; i++) {
       for (size_t j = i + 1; j < node_val.size(); j++) {
@@ -34,11 +30,12 @@ void Greedy::sort(std::vector<int> target, int& cost, int& expansions, std::stri
         std::vector<int> new_val = node_val;
         new_val[i] = node_val[j];
         new_val[j] = node_val[i];
-        if (explored.find(new_val) == explored.end() ||
-            frontier_nodes.find(new_val) == frontier_nodes.end()) {
-          int new_cost = node->cost + ((j == i + 1) ? 2 : 4);
-          frontier.push(
-              std::make_shared<HeuristicNode>(new_val, new_cost, node, heuristic(node_val)));
+        int new_cost = node->cost + ((j == i + 1) ? 2 : 4);
+        if (explored.find(new_val) == explored.end()) {
+          HeuristicNodePtr new_node =
+              std::make_shared<HeuristicNode>(new_val, new_cost, node, heuristic(new_val));
+
+          frontier.push(new_node);
         }
       }
     }

@@ -5,8 +5,7 @@
 
 int main(int argc, const char* argv[]) {
   if (argc < 4) {
-    std::cerr << "Usage: " << argv[0]
-              << " <B|I|U|A|G> <size> <...values> [PRINT]\n";
+    std::cerr << "Usage: " << argv[0] << " <B|I|U|A|G> <size> <...values> [PRINT]\n";
     return 1;
   }
 
@@ -28,10 +27,10 @@ int main(int argc, const char* argv[]) {
   }
 
   int cost = 0;
-  int states = 0;
-  std::string path = search_sort(target, algorithm, cost, states);
+  int expansions = 0;
+  std::string path = search_sort(target, algorithm, cost, expansions);
 
-  std::cout << cost << " " << states << '\n';
+  std::cout << cost << " " << expansions << '\n';
 
   if (print) {
     std::cout << path;

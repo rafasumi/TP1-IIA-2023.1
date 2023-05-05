@@ -1,10 +1,10 @@
-#ifndef DIJKSTRA_H
-#define DIJKSTRA_H
+#ifndef A_STAR_H
+#define A_STAR_H
 
 #include "sort.h"
 #include <vector>
 
-class Dijkstra : public SearchSort {
+class AStar : public SearchSort {
 public:
   virtual void sort(std::vector<int> target, int& cost, int& expansions, std::string& path);
 };

@@ -1,4 +1,5 @@
 #include "sort.h"
+#include "aStar.h"
 #include "bfs.h"
 #include "dijkstra.h"
 #include "greedy.h"
@@ -18,16 +19,14 @@ std::string SearchSort::vec_to_str(std::vector<int>& vec) {
   return str;
 }
 
-bool SearchSort::goal_test(std::vector<int>& vec) {
-  return std::is_sorted(vec.begin(), vec.end());
-}
+bool SearchSort::goal_test(std::vector<int>& vec) { return std::is_sorted(vec.begin(), vec.end()); }
 
 std::string SearchSort::get_path(std::shared_ptr<Node> node) {
   std::string path = "";
 
   std::shared_ptr<Node> curr = node;
   while (curr != nullptr) {
-    path = curr->str + "\n" + path;
+    path = vec_to_str(curr->value) + "\n" + path;
     curr = curr->pred;
   }
 
@@ -44,8 +43,8 @@ int SearchSort::heuristic(std::vector<int>& vec) {
   return estimative;
 }
 
-std::string search_sort(std::vector<int>& target, std::string& algorithm,
-                        int& cost, int& states) {
+std::string search_sort(std::vector<int>& target, std::string& algorithm, int& cost,
+                        int& expansions) {
   std::unique_ptr<SearchSort> algo;
   if (algorithm == "B") {
     algo.reset(new BFS);
@@ -54,6 +53,7 @@ std::string search_sort(std::vector<int>& target, std::string& algorithm,
   } else if (algorithm == "U") {
     algo.reset(new Dijkstra);
   } else if (algorithm == "A") {
+    algo.reset(new AStar);
   } else if (algorithm == "G") {
     algo.reset(new Greedy);
   } else {
@@ -62,7 +62,7 @@ std::string search_sort(std::vector<int>& target, std::string& algorithm,
   }
 
   std::string path = "";
-  algo->sort(target, cost, states, path);
+  algo->sort(target, cost, expansions, path);
 
   return path;
 }
