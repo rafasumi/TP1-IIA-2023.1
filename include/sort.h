@@ -9,11 +9,12 @@
 
 struct Node {
   Node(std::vector<int>& value, int cost, std::shared_ptr<Node> pred)
-      : value(value), cost(cost), pred(pred) {}
+      : value(value), cost(cost), pred(pred), valid(true) {}
 
   std::vector<int> value;
   int cost;
   std::shared_ptr<Node> pred;
+  bool valid;
 };
 
 struct DFSNode : Node {

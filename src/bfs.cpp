@@ -20,8 +20,8 @@ void BFS::sort(std::vector<int> target, int& cost, int& expansions, std::string&
 
     frontier_nodes.erase(node_val);
     explored[node_val] = true;
-    expansions++;
 
+    expansions++;
     for (size_t i = 0; i < node_val.size() - 1; i++) {
       for (size_t j = i + 1; j < node_val.size(); j++) {
         if (node_val[i] < node_val[j])
@@ -30,10 +30,11 @@ void BFS::sort(std::vector<int> target, int& cost, int& expansions, std::string&
         std::vector<int> new_val = node_val;
         new_val[i] = node_val[j];
         new_val[j] = node_val[i];
-        if (explored.find(new_val) == explored.end() ||
-            frontier_nodes.find(new_val) == frontier_nodes.end()) {
+        if (frontier_nodes.find(new_val) == frontier_nodes.end() &&
+            explored.find(new_val) == explored.end()) {
           int new_cost = node->cost + ((j == i + 1) ? 2 : 4);
           NodePtr new_node = std::make_shared<Node>(new_val, new_cost, node);
+          // Early goal test
           if (goal_test(new_val)) {
             cost = new_cost;
             path = get_path(new_node);

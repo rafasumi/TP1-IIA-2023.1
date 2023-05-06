@@ -26,11 +26,11 @@ bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& expansion
         if (node_val[i] < node_val[j])
           continue;
 
-        std::vector<int> new_node = node_val;
-        new_node[i] = node_val[j];
-        new_node[j] = node_val[i];
+        std::vector<int> new_val = node_val;
+        new_val[i] = node_val[j];
+        new_val[j] = node_val[i];
         int new_cost = node->cost + ((j == i + 1) ? 2 : 4);
-        frontier.push(std::make_shared<DFSNode>(new_node, new_cost, node, node->depth + 1));
+        frontier.push(std::make_shared<DFSNode>(new_val, new_cost, node, node->depth + 1));
       }
     }
   }
