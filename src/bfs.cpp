@@ -8,6 +8,8 @@ void BFS::sort(std::vector<int> target, int& cost, int& expansions, std::string&
   }
 
   std::queue<NodePtr> frontier;
+
+  // Mapa que armazena os estados que estão na fronteira
   std::unordered_map<std::vector<int>, bool, int_vector_hash> frontier_nodes;
 
   frontier.push(std::make_shared<Node>(target, 0, nullptr));

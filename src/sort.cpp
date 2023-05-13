@@ -6,6 +6,7 @@
 #include "iterative.h"
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 
 std::string SearchSort::vec_to_str(std::vector<int>& vec) {
   std::stringstream stream;

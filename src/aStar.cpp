@@ -2,11 +2,14 @@
 #include <queue>
 
 void AStar::sort(std::vector<int> target, int& cost, int& expansions, std::string& path) {
+  // Função de comparação usada na fila de prioridades
   auto heap_compare = [](const HeuristicNodePtr& x, const HeuristicNodePtr& y) {
     return (x->estimated + x->cost) >= (y->estimated + y->cost);
   };
   std::priority_queue<HeuristicNodePtr, std::vector<HeuristicNodePtr>, decltype(heap_compare)>
       frontier(heap_compare);
+  
+  // Mapa que armazena os estados que estão na fronteira
   std::unordered_map<std::vector<int>, HeuristicNodePtr, int_vector_hash> frontier_nodes;
 
   HeuristicNodePtr start_node =

@@ -4,6 +4,9 @@
 #include "sort.h"
 #include <vector>
 
+/*
+ * Iterative deepening search
+ */
 class Iterative : public SearchSort {
 private:
   bool limited_sort(std::vector<int>& target, int& cost, int& expansions, std::string& path,

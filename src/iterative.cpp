@@ -4,6 +4,8 @@
 bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& expansions,
                              std::string& path, int limit) {
   std::stack<DFSNodePtr> frontier;
+
+  // Mapa que armazena os estados que estão na fronteira
   std::unordered_map<std::vector<int>, bool, int_vector_hash> frontier_nodes;
 
   frontier.push(std::make_shared<DFSNode>(target, 0, nullptr, 0));
@@ -58,6 +60,7 @@ void Iterative::sort(std::vector<int> target, int& cost, int& expansions, std::s
       break;
 
     limit++;
+    // O algoritmo "esquece" todos os nós explorados na iteração anterior
     explored.clear();
   }
 
