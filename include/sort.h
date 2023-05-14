@@ -15,13 +15,13 @@ struct Node {
 
   // Estado armazenado no nó
   std::vector<int> value;
-  
+
   // Custo para chegar no nó a partir do nó inicial
   int cost;
-  
+
   // Ponteiro para o nó antecessor
   std::shared_ptr<Node> pred;
-  
+
   // Flag que indica se o nó é válido na fronteira
   bool valid;
 };

@@ -8,7 +8,7 @@ void AStar::sort(std::vector<int> target, int& cost, int& expansions, std::strin
   };
   std::priority_queue<HeuristicNodePtr, std::vector<HeuristicNodePtr>, decltype(heap_compare)>
       frontier(heap_compare);
-  
+
   // Mapa que armazena os estados que estão na fronteira
   std::unordered_map<std::vector<int>, HeuristicNodePtr, int_vector_hash> frontier_nodes;
 
@@ -36,6 +36,8 @@ void AStar::sort(std::vector<int> target, int& cost, int& expansions, std::strin
     expansions++;
     for (size_t i = 0; i < node_val.size() - 1; i++) {
       for (size_t j = i + 1; j < node_val.size(); j++) {
+        // Só considera realizar a troca se o valor na posição i for maior que
+        // o valor na posição j
         if (node_val[i] < node_val[j])
           continue;
 
@@ -52,6 +54,8 @@ void AStar::sort(std::vector<int> target, int& cost, int& expansions, std::strin
           frontier_nodes[new_val] = new_node;
         } else if ((frontier_nodes.find(new_val) != frontier_nodes.end() &&
                     frontier_nodes[new_val]->cost > new_cost)) {
+          // Caso o estado "new_val" esteja na fronteira com um custo maior, o
+          // nó na fronteira é invalidado
           frontier_nodes[new_val]->valid = false;
 
           HeuristicNodePtr new_node =

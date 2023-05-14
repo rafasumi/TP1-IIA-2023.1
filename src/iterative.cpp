@@ -22,6 +22,7 @@ bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& expansion
       return true;
     }
 
+    // Não expande o nó se está no limite da profundidade
     if (node->depth == limit)
       continue;
 
@@ -31,6 +32,8 @@ bool Iterative::limited_sort(std::vector<int>& target, int& cost, int& expansion
     expansions++;
     for (size_t i = 0; i < node_val.size() - 1; i++) {
       for (size_t j = i + 1; j < node_val.size(); j++) {
+        // Só considera realizar a troca se o valor na posição i for maior que
+        // o valor na posição j
         if (node_val[i] < node_val[j])
           continue;
 
